@@ -16,26 +16,43 @@ Bộ công cụ **không lách** cơ chế chống bot. Bộ công cụ hoạt �
 
 Số đo cụ thể và các giới hạn đã biết: [docs/06](docs/06_so-sanh-va-gioi-han.md).
 
-## Cài đặt làm plugin Claude Code
+## Cài đặt trong 3 bước
+
+**Bước 1. Chuẩn bị máy** (một lần)
+
+- Windows 10/11 x64 hoặc macOS (bản macOS chưa được vận hành thử trên máy thật).
+- [Google Chrome](https://www.google.com/chrome/).
+- [Python 3.11 trở lên](https://www.python.org/downloads/). Khi cài trên Windows, chọn ô "Add python.exe to PATH". Không cần cài thêm thư viện nào.
+- [Claude Code](https://claude.com/claude-code).
+
+**Bước 2. Cài plugin**, gõ trong Claude Code:
 
 ```
 /plugin marketplace add andyluu98/agent-browser-own-profile
 /plugin install agent-browser-own-profile@agent-browser-own-profile
 ```
 
-Khởi động lại Claude Code, sau đó yêu cầu bằng lời ở bất kỳ phiên làm việc nào, ví dụ:
+Khởi động lại Claude Code.
+
+**Bước 3. Dùng bằng lời**, ở bất kỳ phiên làm việc nào, ví dụ:
 
 > Dùng agent-browser-own-profile tìm 10 bàn phím cơ bán chạy khoảng 1 triệu đồng trên Shopee.
 
-Lần chạy đầu, công cụ tự tải agent-browser vào `%LOCALAPPDATA%\agent-browser-own-profile\` (macOS: `~/Library/Application Support/agent-browser-own-profile/`). Thư mục này giữ hồ sơ Chrome, kết quả và nhật ký; cập nhật plugin không làm mất dữ liệu.
+Lần đầu, Claude Code tự tải agent-browser và kiểm tra (khoảng 3 giây). Trang nào cần đăng nhập, Claude Code mở Chrome riêng để bạn tự đăng nhập một lần; bạn **không cần bật remote debugging hay bấm Allow** trong Chrome. Đăng bài thì Claude Code luôn hỏi bạn trước.
 
-Repo đang ở chế độ riêng tư: học viên cần được mời vào repo trên GitHub thì lệnh cài đặt mới tải được.
+Dữ liệu nằm ở `%LOCALAPPDATA%\agent-browser-own-profile\` (macOS: `~/Library/Application Support/agent-browser-own-profile/`): hồ sơ Chrome, kết quả, nhật ký. Cập nhật plugin không làm mất dữ liệu: `/plugin update agent-browser-own-profile`.
 
-## Yêu cầu máy
+## agent-browser được tích hợp thế nào
 
-- Windows 10/11 x64 hoặc macOS (bản macOS chưa được vận hành thử trên máy thật).
-- Google Chrome.
-- Python 3.11 trở lên, khi cài trên Windows chọn "Add python.exe to PATH". Không cần cài thêm thư viện.
+Repo **không chứa sẵn** file chạy của agent-browser và học viên **không phải tự tải**. Lần chạy đầu, `abkit/install.py` tự tải đúng bản 0.42.0 từ [trang phát hành chính thức của Vercel Labs](https://github.com/vercel-labs/agent-browser/releases/tag/v0.42.0) (Windows khoảng 19 MB), đối chiếu mã SHA-256 ghi sẵn trong code, sai thì bỏ file. Cách này giữ repo nhẹ và mọi học viên chạy cùng một bản đã được kiểm thử. agent-browser phát hành theo giấy phép Apache-2.0.
+
+## Bảo mật và dữ liệu
+
+- Repo không chứa mật khẩu, token, cookie hay dữ liệu cá nhân. Dữ liệu trong `tests/fixtures/` là dữ liệu giả để kiểm thử.
+- Phiên đăng nhập chỉ nằm trong thư mục hồ sơ Chrome trên máy bạn; bộ công cụ không đọc, không gửi thư mục này đi đâu.
+- Lúc chạy, Chrome và agent-browser chỉ mở cổng nội bộ `127.0.0.1`; trong lần kiểm tra ngày 12/11/2026 không ghi nhận kết nối nào từ agent-browser ra Internet (Chrome vẫn truy cập các trang bạn yêu cầu).
+- Nhật ký không ghi nội dung đã điền; mật khẩu, số thẻ, OTP không bao giờ có trong dữ liệu đọc ra.
+- Chi tiết: [docs/04](docs/04_an-toan.md).
 
 ## Các lệnh
 
