@@ -88,6 +88,7 @@ Mặc định công cụ tự mở Chrome riêng với hồ sơ đã đăng nh�
 4. [An toàn](docs/04_an-toan.md)
 5. [Xử lý lỗi](docs/05_xu-ly-loi.md)
 6. [So sánh với bản cũ và giới hạn đã biết](docs/06_so-sanh-va-gioi-han.md)
+7. [Kịch bản chạy Shopee](docs/07_kich-ban-shopee.md)
 
 ## Kiểm thử
 

@@ -15,6 +15,43 @@ def _cap(n, key):
     return max(1, min(int(n), LIMITS[key]))
 
 
+# Product tours (react-joyride) cover the page after an upload (seen 12/11/2026 on TikTok Studio:
+# "New editing features added ... Got it"). The grey overlay comes first, the box with the button a few
+# seconds later, and a JS .click() did not close it: wait for the button, press it with a real click,
+# check the overlay is gone. Only buttons INSIDE the tour box (id react-joyride-step-N) are pressed.
+_TOUR_JS = r"""(() => {
+  const ok = /^(got it|ok|okay|skip|close|done|đã hiểu|bỏ qua|đóng|xong)$/i;
+  document.querySelectorAll('[data-bok-tour]').forEach(x => x.removeAttribute('data-bok-tour'));
+  const overlay = !!document.querySelector('.react-joyride__overlay, .react-joyride__spotlight');
+  const btns = [...document.querySelectorAll('[id^="react-joyride-step"] button, .react-joyride__tooltip button')]
+    .filter(x => ok.test((x.innerText || x.getAttribute('aria-label') || '').trim()));
+  const b = btns.find(x => !/^close$|^đóng$/i.test((x.innerText || x.getAttribute('aria-label') || '').trim())) || btns[0];
+  if (!b) return {overlay, name: ''};
+  b.setAttribute('data-bok-tour', '1');
+  return {overlay, name: (b.innerText || b.getAttribute('aria-label')).trim()};
+})()"""
+
+
+def _dismiss_tours(kit, wait=12, quiet=3):
+    """Close page tours. Returns once no tour is showing (after at least `quiet` s), at most `wait` s."""
+    start = time.time()
+    while time.time() - start < wait:
+        state = kit.browser.eval(_TOUR_JS) or {}
+        if state.get("name"):
+            kit.note("đóng", f"bảng hướng dẫn của trang ('{state['name']}')")
+            try:
+                kit.browser._run("click", '[data-bok-tour="1"]')
+            except Exception:
+                pass
+            time.sleep(1.5)
+            continue
+        if not state.get("overlay") and time.time() - start >= quiet:
+            return
+        time.sleep(1)
+    if (kit.browser.eval(_TOUR_JS) or {}).get("overlay"):
+        raise RuntimeError("bảng hướng dẫn của trang vẫn che màn hình, không đóng được")
+
+
 def shopee_search(kit, keyword, min_price=None, max_price=None, limit=10):
     """Top-selling Shopee products for a keyword (read only). Needs `login --site shopee` first."""
     limit = _cap(limit, "shopee_products")
@@ -72,8 +109,8 @@ def tiktok_studio_post(kit, video_path, caption, upload_timeout=300):
     if not os.path.isfile(video_path):
         raise ValueError(f"không thấy file video: {video_path}")
     kit.open(SITES["tiktok-studio"]["url"], settle=4)
-    snap = kit.snapshot()
-    inputs = find(snap, kind="upload")
+    # Seen 12/11/2026: the file input can take longer than the settle time to appear.
+    inputs = kit.wait_for(lambda s: find(s, kind="upload") or None, timeout=20)
     if not inputs:
         raise Blocked("không thấy ô chọn video trên TikTok Studio (chưa đăng nhập hoặc trang đã đổi)")
     kit.upload(inputs[0], os.path.abspath(video_path))
@@ -93,7 +130,10 @@ def tiktok_studio_post(kit, video_path, caption, upload_timeout=300):
     box = kit.wait_for(caption_box, timeout=60)
     if box is None:
         raise RuntimeError("không thấy ô mô tả sau khi tải video")
+    _dismiss_tours(kit)  # the tour pops up a few seconds after the editor appears
     kit.fill(box, caption)
+    if caption.strip()[:20] not in kit.read_text():
+        raise RuntimeError("điền mô tả không thành công (ô mô tả vẫn chưa có nội dung mới)")
 
     def post_button(s):
         ready = find(s, kind="click", names=("Post", "Đăng"), enabled=True)
@@ -102,6 +142,7 @@ def tiktok_studio_post(kit, video_path, caption, upload_timeout=300):
     button = kit.wait_for(post_button, timeout=upload_timeout, every=5)
     if button is None:
         raise RuntimeError("nút Post chưa bật (video chưa tải xong?)")
+    _dismiss_tours(kit)
     kit.click(button, confirm_with=f"đăng video {os.path.basename(video_path)} lên TikTok")
     time.sleep(3)
 
