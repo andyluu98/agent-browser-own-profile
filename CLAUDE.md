@@ -20,14 +20,14 @@ Chạy việc người dùng yêu cầu; nếu lệnh báo **"Trang yêu cầu �
 2. Nói với người dùng: "Em đã mở Chrome trang <tên>. Anh/chị đăng nhập, xong thì **đóng hẳn cửa sổ Chrome đó** rồi báo em."
 3. Người dùng báo xong thì chạy lại việc lúc nãy.
 
-Người dùng đã có hồ sơ của `browser-own-profile`: đặt biến `ABOP_PROFILE=%LOCALAPPDATA%\browser-own-profile\chrome` để dùng lại phiên đăng nhập, không phải đăng nhập lại. Hai công cụ không dùng chung một hồ sơ cùng lúc.
+Công cụ tự mở Chrome riêng, **không bao giờ yêu cầu người dùng bật remote debugging hay bấm Allow** ở chế độ mặc định. Máy đã có hồ sơ đăng nhập của `browser-own-profile` thì công cụ tự dùng lại (lệnh `doctor` cho biết đang dùng hồ sơ nào). Hai công cụ không dùng chung một hồ sơ cùng lúc.
 
 ## 3. Yêu cầu thường gặp
 
 | Người dùng nói | Lệnh |
 |---|---|
 | "Tìm 10 bàn phím bán chạy tầm 1 triệu trên Shopee" | `shopee --keyword "bàn phím" --min 800000 --max 1200000 --limit 10` |
-| "Đọc bình luận video TikTok này <link>" | `tiktok-comments --url "<link>" --limit 30` (khung trống thì hỏi người dùng có muốn dùng `--main`) |
+| "Đọc bình luận video TikTok này <link>" | `tiktok-comments --url "<link>" --limit 30` (khung trống: báo người dùng; chỉ đề xuất `--main` khi họ chấp nhận bật remote debugging trên Chrome chính) |
 | "Đăng video này lên TikTok, caption ..." | `tiktok-post --video "<đường dẫn tuyệt đối>" --caption "..."` |
 | "Đăng bài Facebook: ..." | `facebook-post --text "..." [--image "<đường dẫn ảnh>"]` |
 | "Mở thử trang X" | `check --site <trang>` |

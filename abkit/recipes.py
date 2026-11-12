@@ -47,7 +47,7 @@ def tiktok_comments(kit, video_url, limit=30):
         # the person's long-used main Chrome got the comments.
         kit.note("không có bình luận", "khung Comments trống")
         raise Blocked("TikTok không tải bình luận cho Chrome này (hay gặp ở Chrome riêng). "
-                      "Thử lại với --main (Chrome chính, bấm Allow một lần).")
+                      "Cách cuối: --main (Chrome chính, cần bật remote debugging và bấm Allow).")
     rows = parse.tiktok_comments(text, limit)
     for _ in range(LIMITS["scroll_rounds"]):
         if len(rows) >= limit:

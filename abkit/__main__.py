@@ -5,13 +5,13 @@
   python -m abkit login --site shopee                 sign in once in the separate Chrome profile
   python -m abkit check --site tiktok [--main]        open a site, show what the tool sees, close
   python -m abkit shopee --keyword "bàn phím" --min 800000 --max 1200000 --limit 10
-  python -m abkit tiktok-comments --url <video link> --limit 30 --main
+  python -m abkit tiktok-comments --url <video link> --limit 30
   python -m abkit tiktok-post --video clip.mp4 --caption "..."     (asks before Post)
   python -m abkit facebook-post --text "..." [--image anh.jpg]      (asks before Post)
   python -m abkit ab <agent-browser args>             raw agent-browser on the same profile (exploring)
 
---main uses your own running Chrome (turn on chrome://inspect/#remote-debugging, click Allow).
-Without it, the separate profile in <home>/chrome is used (no prompt).
+Default: the tool launches its own Chrome on a separate logged-in profile; nothing to switch on in Chrome.
+--main (last resort) attaches to your running Chrome: needs remote debugging switched on and Allow each time.
 """
 
 import argparse
@@ -77,7 +77,9 @@ def doctor():
         print(f"  CHƯA ĐẠT: {e}")
     profile = install.default_profile()
     used = (profile / "Default").is_dir()
-    print(f"Chrome riêng: {profile} ({'đã từng mở' if used else 'chưa dùng lần nào, cần login'})")
+    source = "hồ sơ đã đăng nhập của browser-own-profile" if profile == install.legacy_profile() else \
+        ("đã từng mở" if used else "chưa dùng lần nào, cần login")
+    print(f"Chrome riêng: {profile} ({source}; không cần bật remote debugging)")
     print("SẴN SÀNG" if ok else "CHƯA SẴN SÀNG")
     return ok
 

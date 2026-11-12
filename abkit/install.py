@@ -36,8 +36,28 @@ def home():
     return pathlib.Path.home() / ".local" / "share" / "agent-browser-own-profile"
 
 
+def legacy_profile():
+    """Chrome profile of the older browser-own-profile tool, if this machine has one."""
+    if sys.platform == "win32":
+        return pathlib.Path(os.environ["LOCALAPPDATA"]) / "browser-own-profile" / "chrome"
+    if sys.platform == "darwin":
+        return pathlib.Path.home() / "Library" / "Application Support" / "browser-own-profile" / "chrome"
+    return pathlib.Path.home() / ".local" / "share" / "browser-own-profile" / "chrome"
+
+
 def default_profile():
-    return pathlib.Path(os.environ.get("ABOP_PROFILE") or home() / "chrome")
+    """The separate Chrome profile the tool launches itself: no remote-debugging switch, no Allow prompt.
+    Order: ABOP_PROFILE; this tool's own profile once used; the logged-in profile of browser-own-profile
+    (so a person who already signed in there does not sign in again); else a new profile here."""
+    if os.environ.get("ABOP_PROFILE"):
+        return pathlib.Path(os.environ["ABOP_PROFILE"])
+    own = home() / "chrome"
+    if (own / "Default").is_dir():
+        return own
+    old = legacy_profile()
+    if (old / "Default").is_dir():
+        return old
+    return own
 
 
 def _asset():

@@ -48,7 +48,7 @@ Gọi qua `run.bat` (Windows) hoặc `run.sh` (macOS). Thông thường Claude C
 | `login --site <trang> --no-wait` | Mở Chrome riêng để người dùng tự đăng nhập |
 | `check --site <trang>` | Mở trang, liệt kê các nút và ô nhập công cụ nhận diện được |
 | `shopee --keyword ... --min ... --max ... --limit 10` | Sản phẩm bán chạy, tối đa 20 |
-| `tiktok-comments --url <link> --limit 30 --main [--an-ten]` | Bình luận một video, tối đa 50 |
+| `tiktok-comments --url <link> --limit 30 [--an-ten]` | Bình luận một video, tối đa 50 |
 | `tiktok-post --video <file.mp4> --caption "..."` | Đăng video qua TikTok Studio, **hỏi trước khi bấm Post** |
 | `facebook-post --text "..." [--image <ảnh>]` | Đăng bài Facebook, **hỏi trước khi bấm Đăng** |
 | `instagram-post --media <file> --caption "..."` | Đăng Instagram, **hỏi trước khi bấm Chia sẻ** |
@@ -56,7 +56,7 @@ Gọi qua `run.bat` (Windows) hoặc `run.sh` (macOS). Thông thường Claude C
 
 Các trang có sẵn: `tiktok`, `tiktok-studio`, `facebook`, `instagram`, `threads`, `shopee`, `google` (khai báo trong `abkit/sites.json`).
 
-Tùy chọn chung: `--main` dùng Chrome chính đang mở (Chrome hỏi Allow), `--headless` chạy ngầm không hiện cửa sổ.
+Mặc định công cụ tự mở Chrome riêng với hồ sơ đã đăng nhập: **không cần bật remote debugging, không cần bấm Allow**. Máy đã có hồ sơ của `browser-own-profile` thì công cụ tự dùng lại hồ sơ đó. Tùy chọn `--headless` chạy ngầm không hiện cửa sổ. Tùy chọn `--main` (Chrome chính) chỉ dùng khi thật cần, xem [docs/02](docs/02_chon-profile.md).
 
 ## Kết quả và nhật ký
 

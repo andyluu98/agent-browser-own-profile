@@ -1,28 +1,34 @@
-# 02. Chọn hồ sơ Chrome: Chrome riêng hay Chrome chính
+# 02. Hồ sơ Chrome: dùng Chrome riêng, không bật debug
 
 Hồ sơ (profile) là một "người dùng" trong Chrome: chứa cookie, phiên đăng nhập, lịch sử truy cập.
 
-| | Chrome riêng (mặc định) | Chrome chính (`--main`) |
-|---|---|---|
-| Thư mục | `%LOCALAPPDATA%\agent-browser-own-profile\chrome` | Hồ sơ Chrome dùng hằng ngày |
-| Đăng nhập | Một lần bằng `login --site <trang>` | Đã có sẵn |
-| Hỏi "Allow remote debugging?" | Không | Mỗi lần kết nối, người dùng bấm Allow |
-| Tài khoản khác (Gmail, ngân hàng) | Không có trong hồ sơ này | Có, vì vậy Chrome bắt buộc hỏi Allow |
-| Mức tin cậy của trang | Thấp hơn (hồ sơ mới) | Cao hơn (hồ sơ dùng lâu năm) |
+## Mặc định: Chrome riêng, không phải bật gì
 
-Khuyến nghị: bắt đầu bằng Chrome riêng. Chỉ dùng `--main` khi trang chặn hồ sơ mới, ví dụ khung bình luận TikTok.
+Công cụ tự mở một Chrome riêng với hồ sơ riêng. Người dùng **không cần bật remote debugging, không cần vào `chrome://inspect`, không cần bấm Allow**. Chrome chính dùng hằng ngày không bị đụng tới.
 
-## Dùng lại hồ sơ của browser-own-profile
+Công cụ chọn hồ sơ theo thứ tự:
 
-Đã đăng nhập sẵn bằng `browser-own-profile` thì không cần đăng nhập lại:
+1. Biến `ABOP_PROFILE` nếu có đặt.
+2. Hồ sơ của chính công cụ (`%LOCALAPPDATA%\agent-browser-own-profile\chrome`) nếu đã từng dùng.
+3. Hồ sơ đã đăng nhập của `browser-own-profile` (`%LOCALAPPDATA%\browser-own-profile\chrome`) nếu máy có. Người đã đăng nhập ở công cụ cũ không phải đăng nhập lại.
+4. Không có hồ sơ nào: tạo hồ sơ mới, người dùng đăng nhập một lần bằng `login --site <trang>`.
 
-```bat
-set ABOP_PROFILE=%LOCALAPPDATA%\browser-own-profile\chrome
-run.bat check --site facebook
-```
+Lệnh `doctor` in ra hồ sơ đang dùng.
 
-Hai công cụ không được dùng chung một hồ sơ cùng lúc: chạy `run.bat ab close` trước khi chuyển sang công cụ cũ.
+## Vì sao không dùng thẳng hồ sơ Chrome chính
 
-## Bật cho phép với Chrome chính
+Từ Chrome 136, Chrome không cho công cụ điều khiển hồ sơ chính nếu người dùng chưa bật remote debugging và bấm Allow. Đây là quy tắc bảo mật của Chrome: hồ sơ chính chứa mọi tài khoản (Gmail, ngân hàng), nên Chrome bắt buộc người dùng xác nhận. Bộ công cụ không lách quy tắc này.
 
-Mở `chrome://inspect/#remote-debugging` trong Chrome và bật cho phép một lần. Từ Chrome 144, mỗi lần kết nối vào hồ sơ chính đều phải bấm Allow; không có cài đặt nào tắt được và bộ công cụ không lách bước này.
+Cách chép hồ sơ chính ra một bản tạm (lệnh `--profile <tên>` của agent-browser) đã được thử ngày 12/11/2026: mất 29 giây để mở và bản chép không giữ được phiên đăng nhập Facebook. Vì vậy bộ công cụ không dùng cách này.
+
+## `--main`: lựa chọn cuối
+
+`--main` gắn vào Chrome chính đang mở. Chỉ dùng khi một trang chặn Chrome riêng (ví dụ khung bình luận TikTok trống) và người dùng chấp nhận:
+
+1. Mở `chrome://inspect/#remote-debugging` trong Chrome chính, bật cho phép.
+2. Mỗi lần chạy, bấm Allow khi Chrome hỏi.
+
+## Lưu ý
+
+- Hai công cụ không dùng chung một hồ sơ cùng lúc: chạy `run.bat ab close` trước khi dùng `browser-own-profile` hoặc lệnh `login`.
+- Không chia sẻ thư mục hồ sơ: ai có thư mục này là có phiên đăng nhập của bạn.

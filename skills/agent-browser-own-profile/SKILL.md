@@ -24,7 +24,7 @@ Kết quả và nhật ký nằm ở `%LOCALAPPDATA%\agent-browser-own-profile\`
 | Đăng bài Facebook | `facebook-post --text "..." [--image "<đường dẫn ảnh>"]` |
 | Đăng Instagram | `instagram-post --media "<đường dẫn>" --caption "..."` |
 | Sản phẩm bán chạy Shopee | `shopee --keyword "..." [--min 800000 --max 1200000] --limit 10` |
-| Bình luận một video TikTok | `tiktok-comments --url "<link>" --limit 30 [--main] [--an-ten]` |
+| Bình luận một video TikTok | `tiktok-comments --url "<link>" --limit 30 [--an-ten]` |
 | Thử mở một trang | `check --site <tiktok, tiktok-studio, facebook, instagram, shopee, google>` |
 | Đăng nhập một trang | `ab close`, rồi `login --site <trang> --no-wait` |
 | Trang chưa có lệnh sẵn | `ab open <url>`, `ab snapshot -i`, `ab click @eN`, `ab fill @eN "..."` |
@@ -41,8 +41,9 @@ Kết quả và nhật ký nằm ở `%LOCALAPPDATA%\agent-browser-own-profile\`
 ## Chọn Chrome
 
 - Mặc định: Chrome riêng của bộ công cụ, giữ mở 5 phút sau mỗi lệnh để lệnh sau nhanh hơn.
-- Người dùng đã có hồ sơ của `browser-own-profile`: đặt `ABOP_PROFILE=%LOCALAPPDATA%\browser-own-profile\chrome` để dùng lại phiên đăng nhập.
-- `--main`: Chrome chính đang mở; người dùng bật `chrome://inspect/#remote-debugging` một lần và bấm Allow mỗi lần chạy. Cần cho đọc bình luận TikTok. Chỉ dùng khi người dùng đồng ý.
+- Mặc định không cần bật remote debugging, không cần bấm Allow. Không hướng dẫn người dùng mở `chrome://inspect` ở chế độ này.
+- Máy đã có hồ sơ đăng nhập của `browser-own-profile`: công cụ tự dùng lại, không phải đăng nhập lại.
+- `--main` (Chrome chính) là lựa chọn cuối: phải bật remote debugging và bấm Allow mỗi lần. Chỉ đề xuất khi Chrome riêng bị trang chặn và người dùng đồng ý.
 
 ## Ranh giới bắt buộc
 

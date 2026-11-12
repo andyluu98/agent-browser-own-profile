@@ -22,7 +22,7 @@ Không ai đảm bảo được "không bao giờ dính captcha". Trang có th�
 
 1. Không chạy lại ngay. Chạy lại liên tục làm điểm "giống máy" tệ hơn.
 2. Mở trang đó trên Chrome như bình thường, tự xử lý nếu trang hỏi.
-3. Nếu dùng Chrome riêng mà bị chặn, thử `--main` (Chrome chính, profile lâu năm).
+3. Nếu Chrome riêng bị chặn, có thể thử `--main` (Chrome chính, hồ sơ lâu năm); chế độ này yêu cầu bật remote debugging, xem [docs/02](02_chon-profile.md).
 4. Vẫn bị chặn: trang không cho đọc theo cách này. Cân nhắc API chính thức của nền tảng, hoặc tự sao chép bằng tay.
 
 ## Điều khoản và dữ liệu cá nhân
