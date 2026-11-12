@@ -98,3 +98,7 @@ python -m unittest discover -s tests
 ```
 
 18 test: 14 test chốt an toàn và bộ tách dữ liệu, 4 test chạy Chrome ẩn trên các trang mẫu trong máy (không truy cập mạng).
+
+## Giấy phép
+
+Mã nguồn của repo phát hành theo giấy phép [MIT](LICENSE): được dùng, sửa, chia sẻ lại, kể cả cho mục đích thương mại, miễn giữ nguyên dòng bản quyền và nội dung giấy phép. agent-browser là phần mềm riêng của Vercel Labs, theo giấy phép Apache-2.0, không nằm trong repo này.
