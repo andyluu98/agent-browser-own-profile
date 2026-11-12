@@ -1,0 +1,16 @@
+{
+  "name": "agent-browser-own-profile",
+  "description": "Cài agent-browser-own-profile trực tiếp từ repo này.",
+  "owner": {
+    "name": "andyluu98"
+  },
+  "plugins": [
+    {
+      "name": "agent-browser-own-profile",
+      "description": "Điều khiển Chrome đã đăng nhập của bạn qua agent-browser: đăng TikTok Studio, Facebook kèm ảnh, đọc Shopee, đọc bình luận TikTok. Hỏi trước khi đăng, dừng khi gặp captcha.",
+      "category": "automation",
+      "source": "./",
+      "keywords": ["browser", "chrome", "agent-browser", "tiktok", "facebook", "shopee"]
+    }
+  ]
+}

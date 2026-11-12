@@ -1,0 +1,9 @@
+{
+  "tiktok": {"name": "TikTok", "url": "https://www.tiktok.com/"},
+  "tiktok-studio": {"name": "TikTok Studio", "url": "https://www.tiktok.com/tiktokstudio/upload?from=upload"},
+  "facebook": {"name": "Facebook", "url": "https://www.facebook.com/"},
+  "instagram": {"name": "Instagram", "url": "https://www.instagram.com/"},
+  "threads": {"name": "Threads", "url": "https://www.threads.net/"},
+  "shopee": {"name": "Shopee", "url": "https://shopee.vn/"},
+  "google": {"name": "Google", "url": "https://www.google.com/"}
+}

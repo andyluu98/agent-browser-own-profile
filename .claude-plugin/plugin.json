@@ -1,0 +1,10 @@
+{
+  "name": "agent-browser-own-profile",
+  "version": "0.1.0",
+  "description": "Điều khiển Chrome đã đăng nhập của bạn qua agent-browser (Rust): đăng video TikTok Studio, đăng bài Facebook kèm ảnh, đọc sản phẩm Shopee, đọc bình luận TikTok, thăm dò trang mới. Hỏi trước khi đăng, dừng khi gặp captcha.",
+  "author": {
+    "name": "andyluu98"
+  },
+  "repository": "https://github.com/andyluu98/agent-browser-own-profile",
+  "keywords": ["browser", "chrome", "agent-browser", "tiktok", "facebook", "shopee"]
+}
